@@ -1,0 +1,44 @@
+describe("Linked List testing", function () {
+  let myList = new SinglyLinkedList(4);
+  myList.addFirst(3);
+  myList.addLast(5);
+  myList.addFirst(2);
+  myList.addFirst(4);
+
+  let myList2 = new SinglyLinkedList();
+  myList2.addFirst('Hi');
+  myList2.addLast("There");
+  myList2.addFirst("This");
+  myList2.addFirst("What");
+  myList2.addFirst("Yellow");
+  myList2.addFirst("Blue");
+
+  it("should correctly add to the front and back of the list", function () {
+    expect(myList.get(0)).toEqual(4);
+    expect(myList.get(1)).toEqual(2);
+    expect(myList.get(2)).toEqual(3);
+    expect(myList.get(3)).toEqual(4);
+    expect(myList.get(4)).toEqual(5);
+
+    expect(myList2.get(0)).toEqual("Blue");
+    expect(myList2.get(1)).toEqual("Yellow");
+    expect(myList2.get(2)).toEqual("What");
+    expect(myList2.get(3)).toEqual("This");
+    expect(myList2.get(4)).toEqual("Hi");
+    expect(myList2.get(5)).toEqual("There");
+  });
+
+
+  it("should correctly print the list", function () {
+    expect(myList.printList()).toEqual("List: 4, 2, 3, 4, 5");
+    expect(myList2.printList()).toEqual("List: Blue, Yellow, What, This, Hi, There");
+  });
+
+  it("should return the correct size of the list", function () {
+    expect(myList.getSize()).toEqual(5);
+    expect(myList2.getSize()).toEqual(6);
+  });
+
+  
+
+});

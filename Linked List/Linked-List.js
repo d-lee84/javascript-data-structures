@@ -32,18 +32,28 @@ class Node {
 
 
 class SinglyLinkedList {
-  constructor(value) {
-    this.list = new Node(value, null);
-    this.size = 1;
+  constructor(value = null) {
+    this.list = value ? new Node(value, null) : null;
+    this.size = value ? 1 : 0;
   }
 
+  /** Adds a new Node to the front of the list */
   addFirst(value) {
     this.list = new Node(value, this.list);
     this.size++;
   }
 
-
+  /** Adds a new Node to the back of the list */
   addLast(value) {
+    // If there are no items in the list yet 
+    // then it adds to the front
+    if (this.list === null) {
+      this.addFirst(value);
+      return;
+    }
+
+    this.size++;
+
     let pointer = this.list;
     
     while(pointer.next != null) {
@@ -54,6 +64,8 @@ class SinglyLinkedList {
 
   }
 
+
+  /** Gets the indexed element of the list */
   get(indx) {
     let pointer = this.list;
 
@@ -65,21 +77,35 @@ class SinglyLinkedList {
     return pointer.value;
   }
 
+  /** Deletes one Node containing the value */
   delete(value) {
     if (value === undefined) return;
 
     let pointer = this.list;
+    let prev = this.list;
 
-    while (pointer != null) {
-      
-      if (pointer.value === value) {
-        
-        
-      }
+    // Check if the first Node has the value
+    if (pointer.value === value) {
+      this.list = pointer.next;
+      return;
     }
+
+    
+    while (pointer != null) {
+      if (pointer.value === value) {
+        prev.next = pointer.next;
+        return;
+      }
+
+      prev = pointer;
+      pointer = pointer.next;
+    }
+
   }
 
-
+  /** Prints the list in this format
+   *  "List: value1, value2, etc..."
+   */
   printList() {
     let listStr = "List: ";
     let pointer = this.list;
@@ -99,15 +125,24 @@ class SinglyLinkedList {
   }
 
 
-
-
-
+  /** Returns the size of the list */
+  getSize() {
+    return this.size;
+  }
 }
 
 
 let myList = new SinglyLinkedList(4);
 myList.addFirst(3);
+myList.addLast(5);
+myList.addFirst(2);
+myList.addFirst(4);
 
-console.log(myList.get(0));
-console.log(myList.get(1));
+
+myList.printList();
+
+myList.delete(2);
+myList.delete(4);
+myList.delete(5);
+
 myList.printList();
