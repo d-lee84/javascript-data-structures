@@ -15,7 +15,7 @@
 class Node {
   constructor(value, next = null) {
     this.value = value;
-    this.next = (next instanceof Node) 
+    this.next = (next instanceof Node)
       ? next
       : null;
   }
@@ -55,8 +55,8 @@ class SinglyLinkedList {
     this.size++;
 
     let pointer = this.list;
-    
-    while(pointer.next != null) {
+
+    while (pointer.next != null) {
       pointer = pointer.next;
     }
 
@@ -69,7 +69,7 @@ class SinglyLinkedList {
   get(indx) {
     let pointer = this.list;
 
-    while(indx > 0) {
+    while (indx > 0) {
       pointer = pointer.next;
       indx--;
     }
@@ -90,7 +90,7 @@ class SinglyLinkedList {
       return;
     }
 
-    
+
     while (pointer != null) {
       if (pointer.value === value) {
         prev.next = pointer.next;
@@ -110,7 +110,7 @@ class SinglyLinkedList {
     let listStr = "List: ";
     let pointer = this.list;
 
-    while(pointer.next != null) {
+    while (pointer.next != null) {
       listStr += pointer.value;
       listStr += ", ";
 
@@ -129,20 +129,100 @@ class SinglyLinkedList {
   getSize() {
     return this.size;
   }
+
+
+
+  deleteDuplicates() {
+    let numSet = new Set();
+    let prev = null;
+    let ptr = this.list;
+    
+    while(ptr != null) {
+        if(numSet.has(ptr.value)){
+            prev.next = ptr.next;
+        } else {
+            numSet.add(ptr.value);
+            prev = ptr;
+        }
+        ptr = ptr.next;
+    }
+  }
 }
 
 
-let myList = new SinglyLinkedList(4);
-myList.addFirst(3);
-myList.addLast(5);
-myList.addFirst(2);
-myList.addFirst(4);
 
 
-myList.printList();
+class DNode {
+  constructor(prev = null, value, next = null) {
+    this.prev = null;
+    this.value = value;
+    this.next = (next instanceof DNode)
+      ? next
+      : null;
+  }
+}
 
-myList.delete(2);
-myList.delete(4);
-myList.delete(5);
 
-myList.printList();
+
+
+class DoublyLinkedList {
+  constructor(value = null) {
+    this.size = value ? 1 : 0;
+    this.list = value ? setUpList(value) : null;
+  }
+
+  setUpList(value) {
+
+    let list = new DNode(null, value, null);
+
+    list.next = list;
+    list.prev = list;
+
+    return list;
+  }
+
+  addFirst(value) {
+
+    if (this.list === null) {
+      this.list = setUpList(value);
+      return;
+    }
+
+    let second = this.list.next;
+
+    let node = new DNode(this.list, value, second);
+
+    this.list.next = node;
+    this.list.prev = node;
+
+    this.size++;
+  }
+
+
+  addLast(value) {
+
+    let second = this.sentinel.next;
+
+    let node = new DNode(this.sentinel, value, second);
+
+    this.sentinel.next = node;
+
+    this.size++;
+  }
+
+}
+
+// let myList = new SinglyLinkedList(4);
+// myList.addFirst(3);
+// myList.addLast(5);
+// myList.addFirst(2);
+// myList.addFirst(4);
+
+
+// myList.printList();
+
+// myList.delete(2);
+// myList.delete(4);
+// myList.delete(5);
+
+// myList.printList();

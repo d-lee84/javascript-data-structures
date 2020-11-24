@@ -39,6 +39,26 @@ describe("Linked List testing", function () {
     expect(myList2.getSize()).toEqual(6);
   });
 
+
   
+  let myList3 = new SinglyLinkedList(4);
+  myList3.addFirst(4);
+  myList3.addFirst(1);
+  myList3.addFirst(2);
+  myList3.addFirst(3);
+  myList3.addFirst(4);
+  myList3.addLast(5);
+  myList3.addFirst(4);
+  myList3.addLast(1);
+  myList3.addLast(2);
+  myList3.addLast(3);
+  
+  
+  it("should correctly remove the duplicates of the list", function () {
+    expect(myList3.printList()).toEqual("List: 4, 4, 3, 2, 1, 4, 4, 5, 1, 2, 3");
+    
+    myList3.deleteDuplicates();
+    expect(myList3.printList()).toEqual("List: 4, 3, 2, 1, 5");
+  });
 
 });
