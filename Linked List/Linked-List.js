@@ -131,26 +131,89 @@ class SinglyLinkedList {
   }
 
 
-
+  /** Removes any duplicates from the linked list */
   deleteDuplicates() {
     let numSet = new Set();
     let prev = null;
     let ptr = this.list;
     
-    while(ptr != null) {
+    while(ptr !== null) {
         if(numSet.has(ptr.value)){
             prev.next = ptr.next;
         } else {
             numSet.add(ptr.value);
+            this.size--;
             prev = ptr;
         }
         ptr = ptr.next;
     }
   }
+
+  /** Finds the k-th element from the end */
+  getKthElementFromEnd(k) {
+    // Find the size of the list
+    let ptr2 = this.list; 
+    let ptr1 = this.list;
+
+    for(let i = 0; i < k; i++) {
+      ptr1 = ptr1.next;
+    }
+
+    while(ptr1.next !== null){
+      ptr1 = ptr1.next;
+      ptr2 = ptr2.next; 
+    }
+
+    return ptr2.value;
+  }
+
+
+  /** Returns a linked list:
+   *  - Values less than partition (x) comes before
+   *  - Values after partition (x)
+   */
+  partition(x) {
+    let beforeStart = null;
+    let beforeEnd = null;
+    let afterStart = null;
+    let afterEnd = null;
+
+    let ptr = this.list;
+
+    // Traverse through the entire list
+    while(ptr !== null) {
+      // If value is greater, add to the before LinkedList
+      if(ptr.value < x) {
+        if(beforeStart === null) {
+          beforeStart = ptr;
+          beforeEnd = beforeStart;
+        } else {
+          beforeEnd.next = ptr;
+          beforeEnd = ptr;
+        }
+      } else {
+        if(afterStart === null) {
+          afterStart = ptr;
+          afterEnd = afterStart;
+        } else {
+          afterEnd.next = ptr;
+          afterEnd = ptr;
+        }
+      }
+    }
+
+    // Check if the before LinkedList is empty 
+    if (beforeStart === null) {
+      return afterStart;
+    }
+
+    // Combine the lists and update the list
+    beforeEnd.next = afterStart;
+
+    this.list = beforeStart;
+
+  }
 }
-
-
-
 
 class DNode {
   constructor(prev = null, value, next = null) {
@@ -161,8 +224,6 @@ class DNode {
       : null;
   }
 }
-
-
 
 
 class DoublyLinkedList {

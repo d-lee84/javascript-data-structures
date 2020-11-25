@@ -40,7 +40,7 @@ describe("Linked List testing", function () {
   });
 
 
-  
+
   let myList3 = new SinglyLinkedList(4);
   myList3.addFirst(4);
   myList3.addFirst(1);
@@ -52,13 +52,57 @@ describe("Linked List testing", function () {
   myList3.addLast(1);
   myList3.addLast(2);
   myList3.addLast(3);
-  
-  
+
+
   it("should correctly remove the duplicates of the list", function () {
     expect(myList3.printList()).toEqual("List: 4, 4, 3, 2, 1, 4, 4, 5, 1, 2, 3");
-    
+
     myList3.deleteDuplicates();
     expect(myList3.printList()).toEqual("List: 4, 3, 2, 1, 5");
   });
+
+
+  let myList4 = new SinglyLinkedList(4);
+  myList4.addFirst(4);
+  myList4.addFirst(1);
+  myList4.addFirst(2);
+  myList4.addFirst(3);
+  myList4.addFirst(4);
+  myList4.addLast(5);
+  myList4.addFirst(4);
+  myList4.addLast(1);
+  myList4.addLast(2);
+  myList4.addLast(3);
+
+  it("should correctly get the k-th element from the end of the list", function () {
+    expect(myList4.getKthElementFromEnd(0)).toEqual(3);
+    expect(myList4.getKthElementFromEnd(1)).toEqual(2);
+    expect(myList4.getKthElementFromEnd(2)).toEqual(1);
+  });
+
+
+
+  let myList5 = new SinglyLinkedList(4);
+  myList5.addFirst(4);
+  myList5.addFirst(1);
+  myList5.addFirst(2);
+  myList5.addFirst(3);
+  myList5.addFirst(4);
+  myList5.addLast(5);
+  myList5.addFirst(4);
+  myList5.addLast(1);
+  myList5.addLast(2);
+  myList5.addLast(3);
+
+
+
+
+  it("should partition the list properly", function () {
+    myList5.partition(4);
+    expect(myList5.printList()).toEqual("List: 3, 2, 1, 1, 2, 3, 4, 4, 4, 4, 5");
+  });
+
+
+
 
 });
