@@ -32,9 +32,11 @@ class Node {
 
 
 class SinglyLinkedList {
-  constructor(value = null) {
-    this.list = value ? new Node(value, null) : null;
-    this.size = value ? 1 : 0;
+  constructor(list = null) {
+    // this.list = value ? new Node(value, null) : null;
+    // this.size = value ? 1 : 0;
+    this.list = list ? list : null;
+    // this.size = list ?0;
   }
 
   /** Adds a new Node to the front of the list */
@@ -136,32 +138,32 @@ class SinglyLinkedList {
     let numSet = new Set();
     let prev = null;
     let ptr = this.list;
-    
-    while(ptr !== null) {
-        if(numSet.has(ptr.value)){
-            prev.next = ptr.next;
-        } else {
-            numSet.add(ptr.value);
-            this.size--;
-            prev = ptr;
-        }
-        ptr = ptr.next;
+
+    while (ptr !== null) {
+      if (numSet.has(ptr.value)) {
+        prev.next = ptr.next;
+      } else {
+        numSet.add(ptr.value);
+        this.size--;
+        prev = ptr;
+      }
+      ptr = ptr.next;
     }
   }
 
   /** Finds the k-th element from the end */
   getKthElementFromEnd(k) {
     // Find the size of the list
-    let ptr2 = this.list; 
+    let ptr2 = this.list;
     let ptr1 = this.list;
 
-    for(let i = 0; i < k; i++) {
+    for (let i = 0; i < k; i++) {
       ptr1 = ptr1.next;
     }
 
-    while(ptr1.next !== null){
+    while (ptr1.next !== null) {
       ptr1 = ptr1.next;
-      ptr2 = ptr2.next; 
+      ptr2 = ptr2.next;
     }
 
     return ptr2.value;
@@ -181,10 +183,10 @@ class SinglyLinkedList {
     let ptr = this.list;
 
     // Traverse through the entire list
-    while(ptr !== null) {
+    while (ptr !== null) {
       // If value is greater, add to the before LinkedList
-      if(ptr.value < x) {
-        if(beforeStart === null) {
+      if (ptr.value < x) {
+        if (beforeStart === null) {
           beforeStart = ptr;
           beforeEnd = beforeStart;
         } else {
@@ -192,7 +194,7 @@ class SinglyLinkedList {
           beforeEnd = ptr;
         }
       } else {
-        if(afterStart === null) {
+        if (afterStart === null) {
           afterStart = ptr;
           afterEnd = afterStart;
         } else {
@@ -273,7 +275,60 @@ class DoublyLinkedList {
 
 }
 
-// let myList = new SinglyLinkedList(4);
+
+/** 2.5 Sum List
+ *  - Summing two lists that are stored in reverse order
+ *  - Return a new list
+ *  - Input (6 -> 1 -> 7) + (2 -> 9 -> 5) = 617 + 295
+ *  - Output (9 -> 1 -> 2) = 912
+ */
+function sumList(list1, list2) {
+
+  function sumListHelper(list1, list2) {
+
+    if (!list1.next && !list2.next) {
+      let addedVal = list1.value + list2.value;
+      return [new Node(addedVal % 10), Math.floor(addedVal / 10)];
+    } else {
+      let info = sumListHelper(list1.next, list2.next);
+
+      let node = info[0];
+      let offset = info[1];
+
+      let addedVal = list1.value + list2.value + offset;
+
+      return [new Node(addedVal % 10, node), Math.floor(addedVal / 10)];
+
+    }
+  }
+
+  let node = sumListHelper(list1.list, list2.list)[0];
+  return new SinglyLinkedList(node);
+}
+
+let myList = new SinglyLinkedList();
+myList.addFirst(7);
+myList.addFirst(1);
+myList.addFirst(6);
+
+let myList2 = new SinglyLinkedList();
+myList2.addFirst(5);
+myList2.addFirst(9);
+myList2.addFirst(2);
+
+console.log(myList);
+console.log(myList2);
+
+
+let myList3 = sumList(myList, myList2);
+console.log(myList3);
+console.log(myList3.list.value);
+console.log(myList3.list.next.value);
+console.log(myList3.list.next.next.value);
+
+
+
+
 // myList.addFirst(3);
 // myList.addLast(5);
 // myList.addFirst(2);
