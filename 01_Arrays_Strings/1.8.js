@@ -1,3 +1,5 @@
+"use strict";
+
 /** Problem 1.8: Zero Matrix
  *  - For a given M x N matrix, if an element is 0
  *    set its entire row and column to 0
