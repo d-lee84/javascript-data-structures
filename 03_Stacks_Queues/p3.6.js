@@ -10,7 +10,7 @@
  *  operations such as enqueue, dequeueAny, dequeueDog and dequeueCat. 
  *  You may use built-in LinkedList data structure. */
 
-class AnimalShelter {
+class AnimalShelter { // Without Using Order
 
   constructor() {
     this.pets = new SinglyLinkedList()
@@ -29,7 +29,7 @@ class AnimalShelter {
 
     let ptr = this.pets;
 
-    while(!(ptr.value instanceof Dog)){
+    while (!(ptr.value instanceof Dog)) {
       ptr = ptr.next;
     }
 
@@ -41,7 +41,7 @@ class AnimalShelter {
   dequeueCat() {
     let ptr = this.pets;
 
-    while(!(ptr.value instanceof Cat)){
+    while (!(ptr.value instanceof Cat)) {
       ptr = ptr.next;
     }
 
@@ -51,66 +51,119 @@ class AnimalShelter {
 
 }
 
-/** Cat class to use as our example */
 
-class Cat {
+class AnimalShelter2 { // With Using Order
 
+  constructor() {
+    this.catStack = new Stack()
+    this.dogStack = new Stack()
+    this.order = 0;
+  }
+
+  enqueue(pet) {
+
+    pet.setOrder(this.order);
+    this.order++;
+
+    if (pet instanceof Dog) {
+      this.dogStack.push(pet);
+    } else {
+      this.catStack.push(pet);
+    }
+  }
+
+  dequeueAny() {
+    let pet = this.pets.get(0);
+    this.delete(pet);
+  }
+
+  dequeueDog() {
+
+    let ptr = this.pets;
+
+    while (!(ptr.value instanceof Dog)) {
+      ptr = ptr.next;
+    }
+
+    let pet = ptr.value;
+    this.delete(pet);
+
+  }
+
+  dequeueCat() {
+    let ptr = this.pets;
+
+    while (!(ptr.value instanceof Cat)) {
+      ptr = ptr.next;
+    }
+
+    let pet = ptr.value;
+    this.delete(pet);
+  }
+
+}
+
+/** Use an animal class in order to hold the order of the animal */
+
+class Animal {
   constructor(name) {
     this.name = name;
+    this.order = 0;
+  }
+
+  setOrder(val) {
+    this.order = val;
+  }
+}
+
+
+
+/** Cat class to use as our example */
+
+class Cat extends Animal {
+  constructor(name) {
+    super(name);
   }
 }
 
 /** Dog class to use as our example */
 
-class Dog {
+class Dog extends Animal {
   constructor(name) {
-    this.name = name;
+    super(name);
   }
 }
 
 
 
-/** Regular Stack Class */
+/** Regular Queue Class */
 
-class Stack {
-
+// Queue class 
+class Queue {
   constructor() {
-    this._storage = {};
-
-    this.count = 0;
+    this.items = [];
   }
 
-  /** Add an item to the end of the stack */
-  push(val) {
-    this._storage[this._count + 1] = val;
-    this._count += 1;
-    return this._count;
-  };
-
-  /** Pop the item from the end of the stack */
-
-  pop() {
-    let value = this._storage[this._count - 1];
-    this._count -= 1;
-    delete this._storage[this._count];
-    if (this._count < 0) {
-      this._count = 0;
-    }
-    return value;
-  };
-
-  /** Look at the item from the end of the stack */
-
-  peek() {
-    return this._storaget[this._count - 1];
+  enqueue(element) {
+    // adding element to the queue 
+    this.items.push(element);
   }
 
-  /** Return the size of the stack */
+  dequeue() {
+    if (this.isEmpty())
+      return "Nothing in the Queue";
+    return this.items.shift();
+  }
 
-  size() {
-    return this._count;
-  };
+  front() {
+    if (this.isEmpty())
+      return "No elements in Queue";
+    return this.items[0];
+  }
 
+  isEmpty() {
+    return this.items.length == 0;
+  }
 }
 
 
