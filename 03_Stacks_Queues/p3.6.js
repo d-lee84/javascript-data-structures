@@ -55,8 +55,8 @@ class AnimalShelter { // Without Using Order
 class AnimalShelter2 { // With Using Order
 
   constructor() {
-    this.catStack = new Stack()
-    this.dogStack = new Stack()
+    this.catStack = new Queue()
+    this.dogStack = new Queue()
     this.order = 0;
   }
 
@@ -66,41 +66,47 @@ class AnimalShelter2 { // With Using Order
     this.order++;
 
     if (pet instanceof Dog) {
-      this.dogStack.push(pet);
+      this.dogStack.enqueue(pet);
     } else {
-      this.catStack.push(pet);
+      this.catStack.enqueue(pet);
     }
   }
 
   dequeueAny() {
-    let pet = this.pets.get(0);
-    this.delete(pet);
+
+    if (this.dogStack.isEmpty()) {
+      return this.catStack.dequeue();
+    } else if (this.catStack.isEmpty()) {
+      return this.dogStack.dequeue();
+    }
+
+    let dog = this.dogStack.front();
+    let cat = this.catStack.front();
+
+    if (dog.order > cat.order) {
+      return this.catStack.dequeue();
+    } else {
+      return this.dogStack.dequeue();
+    }
   }
 
   dequeueDog() {
 
-    let ptr = this.pets;
-
-    while (!(ptr.value instanceof Dog)) {
-      ptr = ptr.next;
+    if (!this.dogStack.isEmpty()) {
+      return this.dogStack.dequeue();
+    } else {
+      return "No Dogs remaining"
     }
-
-    let pet = ptr.value;
-    this.delete(pet);
 
   }
 
   dequeueCat() {
-    let ptr = this.pets;
-
-    while (!(ptr.value instanceof Cat)) {
-      ptr = ptr.next;
+    if (!this.catStack.isEmpty()) {
+      return this.catStack.dequeue();
+    } else {
+      return "No Cogs remaining"
     }
-
-    let pet = ptr.value;
-    this.delete(pet);
   }
-
 }
 
 /** Use an animal class in order to hold the order of the animal */
@@ -138,7 +144,6 @@ class Dog extends Animal {
 
 /** Regular Queue Class */
 
-// Queue class 
 class Queue {
   constructor() {
     this.items = [];
